@@ -9,6 +9,13 @@ from ...db.db import get_session
 
 router = APIRouter()
 
+@router.get("/", response_model=List[ProductRead])
+def get_products(session: Session = Depends(get_session)):
+    """
+    Get all products
+    """
+    return session.exec(select(Product)).all()
+
 @router.post('/', response_model=ProductRead, status_code=status.HTTP_201_CREATED)
 def create_product(
         *,
