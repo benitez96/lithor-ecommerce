@@ -30,6 +30,7 @@ import {
   MoonIcon,
 } from '@chakra-ui/icons';
 import { FiShoppingCart } from 'react-icons/fi';
+import { IoBagOutline } from 'react-icons/io5'
 
 const Links = ['REMERAS', 'INVIERNO', 'VERANO'];
 
@@ -54,9 +55,15 @@ export default function withAction() {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <>
-      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
-        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+    <header 
+      style={{ 
+        position: "sticky",
+        top: 0,
+        'zIndex': '3',
+      }} 
+    >
+      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4} w='full'>
+        <Flex h='10%' alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             variant='ghost'
             size={'md'}
@@ -82,7 +89,7 @@ export default function withAction() {
               {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
             </Button>
             <Button p={1} mx={1} variant='ghost'>
-              <Icon as={ FiShoppingCart } />
+              <Icon as={ IoBagOutline } />
             </Button>
           </Box>
         </Flex>
@@ -97,6 +104,6 @@ export default function withAction() {
           </Box>
         ) : null}
       </Box>
-    </>
+    </header>
   );
 }
