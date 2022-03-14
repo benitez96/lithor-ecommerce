@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useFetch } from '../hooks/useFetch';
+import { useState, useEffect, useRef} from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import { FiShoppingCart } from 'react-icons/fi';
 
 import {
@@ -7,21 +7,30 @@ import {
   Spinner,
   Stack,
   Wrap,
+  Text,
 } from '@chakra-ui/react'
 
 import { ProductCard } from '../components/product'
-
+import { fetchProducts } from '../reducers/productsReducer'
 
 export const Home = () => {
 
-  const { data: products, loading } = useFetch( 'http://localhost:8000/api/products' );
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchProducts())
+  }, [dispatch]);
+
+  const isMounted = useRef(false)
+  const { products, status } = useSelector(state => state.products)
+
+
 
   return (
     <Stack>
     {
-      products
+      status === 'succeeded'
       ? 
-
       <Wrap
         p={0}
         spacing={0}
@@ -39,9 +48,15 @@ export const Home = () => {
           ))
         }
       </Wrap>
-      : 
+      : status === 'loading' 
+      ?
+        <Container bg={'gray.500'} minH="85%" alignSelf="center">
+          <Spinner />
+        </Container>
+
+      :
       <Container bg={'gray.500'} minH="85%" alignSelf="center">
-        <Spinner />
+        <Text>Error al cargar los productos</Text>
       </Container>
     }
     </Stack>
