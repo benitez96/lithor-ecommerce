@@ -4,10 +4,12 @@ export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async (payload, { rejectWithValue }) => {
     const response = await fetch('http://localhost:8000/api/products')
+    // const response = await fetch('http://192.168.1.63:8000/api/products')
     const data = await response.json()
     return data
   }
 )
+
 
 export const productsSlice = createSlice({
   name: 'products',

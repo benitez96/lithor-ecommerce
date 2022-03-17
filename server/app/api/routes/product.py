@@ -9,6 +9,13 @@ from ...db.db import get_session
 
 router = APIRouter()
 
+@router.get("/{product_id}", response_model=ProductRead)
+def get_product(product_id: int, session: Session = Depends(get_session)):
+    product = session.get(Product, product_id)
+    if product is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found")
+    return product
+
 @router.get("/", response_model=List[ProductRead])
 def get_products(session: Session = Depends(get_session)):
     """

@@ -8,7 +8,7 @@ import {
 export const ProductPrice = ({ price, sign="$" }) => {
   return (
     <Flex justifyContent="space-between" alignContent="center">
-      <Box fontSize="md" >
+      <Box fontSize="lg" >
         <Box as="span" color={'gray.600'} fontSize="md" px={1}>
           { sign }
         </Box>

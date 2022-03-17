@@ -15,9 +15,10 @@ export const ProductImage = ({ product }) => {
     <Center 
       mb={2} 
       bg="white" 
-      h="calc(100% - 130px)" 
+      h={{ base: '270px', sm: '170px' }} 
       overflow="hidden"
       position="relative"
+      objectFit="cover"
     >
       <Image
         src={product.image_url}

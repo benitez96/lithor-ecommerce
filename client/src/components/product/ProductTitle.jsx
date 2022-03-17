@@ -8,7 +8,7 @@ export const ProductTitle = ({ title }) => {
   return (
     <Flex mt="1" justifyContent="space-between" alignContent="center">
       <Box
-        fontSize="md"
+        fontSize="xl"
         fontWeight="semibold"
         as="h4"
         lineHeight="tight"

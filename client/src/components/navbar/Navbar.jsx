@@ -1,7 +1,9 @@
-import React from 'react';
+import { useSelector } from 'react-redux';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   Box,
   Divider,
+  Circle,
   Flex,
   Avatar,
   Heading,
@@ -20,6 +22,7 @@ import {
   Stack,
   Text,
   useColorMode,
+
 } from '@chakra-ui/react';
 
 import {
@@ -32,27 +35,19 @@ import {
 import { FiShoppingCart } from 'react-icons/fi';
 import { IoBagOutline } from 'react-icons/io5'
 
-const Links = ['REMERAS', 'INVIERNO', 'VERANO'];
+import { Cart } from '../cart/Cart'
+import { Menu as DrawerMenu } from '../menu/Menu'
 
-
-const NavLink = ({ children }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
-    }}
-    href={'#'}>
-    {children}
-  </Link>
-);
 
 export default function withAction() {
 
+  const { items } = useSelector(state => state.cart);
+
   const { isOpen: menuIsOpen, onOpen: menuOnOpen, onClose: menuOnClose } = useDisclosure();
+  const { isOpen: cartIsOpen, onOpen: cartOnOpen, onClose: cartOnClose } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
+
+  const links = [ 'REMERAS', 'INVIERNO', 'NUEVO' ]
 
   return (
     <header 
@@ -62,47 +57,74 @@ export default function withAction() {
         'zIndex': '3',
       }} 
     >
-      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4} w='full'>
-        <Flex h='10%' alignItems={'center'} justifyContent={'space-between'}>
+      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4} w='full' h="60px">
+        <Flex alignItems={'center'} justifyContent={'space-between'} h='100%'>
           <IconButton
             variant='ghost'
             size={'md'}
-            icon={menuIsOpen ? <CloseIcon /> : <HamburgerIcon />}
+            icon={<HamburgerIcon />}
             aria-label={'Open Menu'}
             display={{ md: 'none' }}
             onClick={menuIsOpen ? menuOnClose : menuOnOpen}
           />
           <HStack spacing={8} alignItems={'center'} >
-            <Heading>LITHOR</Heading>
+            <RouterLink to='/'><Heading>LITHOR</Heading></RouterLink>
             <Divider display={{ base: 'none', md: 'flex' }}/>
             <HStack
               as={'nav'}
               spacing={4}
-              display={{ base: 'none', md: 'flex' }}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
+              display={{ base: 'none', md: 'flex' }}
+            >
+              {
+                links.map((link) =>{
+                  return (
+                    <RouterLink
+                      key={link}
+                      to={`/${link}`}
+                      fontSize={['sm', 'md']}
+                      fontWeight={'bold'}
+                      color={useColorModeValue('gray.700', 'gray.300')}
+                      _hover={{ color: useColorModeValue('gray.800', 'gray.500') }}
+                    >
+                      {link}
+                    </RouterLink>
+                  )
+                })
+              }
             </HStack>
           </HStack>
           <Box>
+            {/*
             <Button p={1} mx={1} variant='ghost' onClick={toggleColorMode}>
-              {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+            {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
             </Button>
-            <Button p={1} mx={1} variant='ghost'>
+            */}
+            <Button 
+              p={1} 
+              mx={1} 
+              variant='ghost'
+              onClick={ cartOnOpen }
+            >
+              <Cart 
+                isOpen={cartIsOpen}
+                onClose={cartOnClose}
+              />
               <Icon as={ IoBagOutline } />
+              {
+                !!items && (
+                  <Circle bg='black' size={3} position="absolute" bottom={2} left={1}>
+                    <Text color="white" fontSize={8} fontWeight="semibold">{items}</Text>
+                  </Circle>
+                )
+              }
             </Button>
           </Box>
         </Flex>
 
-        {menuIsOpen ? (
-          <Box pb={4} display={{ md: 'none' }}>
-            <Stack as={'nav'} spacing={4}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </Stack>
-          </Box>
-        ) : null}
+        <DrawerMenu 
+          isOpen={menuIsOpen}
+          onClose={menuOnClose}
+        />
       </Box>
     </header>
   );

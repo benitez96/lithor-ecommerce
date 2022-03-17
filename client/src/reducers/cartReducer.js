@@ -4,21 +4,35 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState: {
     products: [],
+    items: 0,
     totalAmount: 0,
   },
   reducers: {
-    addItem: (state, action) => ( 
-      {
-        ...state,
-        products: [...state.products, action.payload],
-        totalAmount: state.totalAmount + action.payload.price
+    addItem: (state, action) => { 
+
+      const index = state.products.findIndex(product => product.id === action.payload.id)
+      let products = null;
+      if (index !== -1){
+        products = state.products.map((p, i) => i === index ? {...p, quantity: p.quantity + action.payload.quantity} : p)
+      }else{
+        products = [...state.products, action.payload]
       }
-     ),
+
+      return {
+        ...state,
+        products,
+        totalAmount: Math.round(
+          (products.reduce(
+                    (a, b) => a + (b['quantity'] * b['price'] || 0), 0)) * 100) / 100,
+        items: state.items + action.payload.quantity
+      }
+     },
     removeItem: (state, action) => (
       {
         ...state,
         products: state.products.filter(product => product.id !== action.payload.id),
-        totalAmount: state.totalAmount - action.payload.price
+        totalAmount: Math.round((state.totalAmount - action.payload.price * action.payload.quantity) * 100) / 100,
+        items: state.items - action.payload.quantity
       }
     ),
     decreaseByOne: (state, action) => (
@@ -33,7 +47,8 @@ export const cartSlice = createSlice({
           }
           return product
         }),
-        totalAmount: state.totalAmount - action.payload.price
+        totalAmount: Math.round((state.totalAmount - action.payload.price) * 100) / 100,
+        items: state.items - 1
       }
     ),
     increaseByOne: (state, action) => (
@@ -48,7 +63,8 @@ export const cartSlice = createSlice({
           }
           return product
         }),
-        totalAmount: state.totalAmount + action.payload.price
+        totalAmount: Math.round((state.totalAmount + action.payload.price) * 100) / 100,
+        items: state.items + 1
       }
     ),
   },

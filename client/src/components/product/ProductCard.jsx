@@ -1,22 +1,8 @@
 import React from 'react';
 
 import {
-  Container,
-  Spinner,
-  Icon,
-  Stack,
-  Circle,
-  Center,
-  Box,
-  Image,
-  Badge,
-  Text,
-  Flex,
-  Tooltip,
-  Grid,
-  GridItem,
-  Wrap,
-  WrapItem
+  WrapItem,
+  Box
 } from '@chakra-ui/react'
 
 import { FiShoppingCart } from 'react-icons/fi';

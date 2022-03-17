@@ -15,7 +15,7 @@ import Navbar from '../components/navbar/Navbar';
 export const Navigation = () => (
   <Router>
     <Navbar />
-    <Container as="main" alignSelf='center' height="100%" maxWidth={'container.xl'} pt='10%' > 
+    <Container as="main" alignSelf='center'  maxWidth={'container.xl'} > 
       <Routes>
         <Route path="/" element={ <Home /> } />
         <Route path="/product/:id" element={ <Product /> }/>

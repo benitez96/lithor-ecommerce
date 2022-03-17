@@ -1,13 +1,13 @@
 import React from 'react';
 
 import {
-  Box,
+  VStack,
 } from '@chakra-ui/react'
 
 export const ProductFooter = ({ children }) => {
   return (
-    <Box p='5px' h='120px'>
+    <VStack spacing={1} p='10px' h='120px' justifyContent='start' alignItems='start'>
       { children }
-    </Box>
+    </VStack>
   );
 }
