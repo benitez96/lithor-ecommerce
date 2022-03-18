@@ -1,14 +1,9 @@
 import { MercadoPagoForm } from '../components/mercadoPago/MercadoPagoForm.jsx';
 
-export const Payment = ({ props }) => {
+export const Payment = () => {
 
 
   return (
-    <>
-      Payment
       <MercadoPagoForm />
-
-
-    </>
   );
 }

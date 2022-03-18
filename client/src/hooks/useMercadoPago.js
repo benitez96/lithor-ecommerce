@@ -77,16 +77,6 @@ export default function useMercadoPago() {
                                 setResultPayment(err);
                             });
                     },
-                    onFetching: (resource) => {
-                        // Animate progress bar
-                        const progressBar =
-                            document.querySelector(".progress-bar");
-                        progressBar.removeAttribute("value");
-
-                        return () => {
-                            progressBar.setAttribute("value", "0");
-                        };
-                    },
                 },
             });
         }
