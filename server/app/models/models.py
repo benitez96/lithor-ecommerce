@@ -114,3 +114,22 @@ class Order(OrderCreate, table=True):
     status: Status = Relationship(back_populates='orders')
 
     items: List[Item] = Relationship(back_populates='order')
+
+
+
+class Identification(SQLModel):
+        type: str
+        number: str
+
+class Payer(SQLModel):
+    email: str
+    identification: Identification
+
+class PaymentRequest(SQLModel):
+    description: str
+    installments: Optional[int]
+    issuer_id: str
+    payer: Payer
+    payment_method_id: str
+    token: str
+    transaction_amount: float

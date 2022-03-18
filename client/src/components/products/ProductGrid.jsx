@@ -1,7 +1,4 @@
-import { useState, useEffect, useRef} from 'react';
-import { useDispatch, useSelector } from 'react-redux'
-import { FiShoppingCart } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import React from 'react';
 
 import {
   Container,
@@ -13,23 +10,7 @@ import {
   Box,
 } from '@chakra-ui/react'
 
-import { ProductCard } from '../components/products'
-import { sample } from '../data/sampleProducts'
-import { fetchProducts } from '../reducers/productsReducer'
-import { cleanProduct } from '../reducers/currentProductReducer'
-
-export const Home = () => {
-
-  const dispatch = useDispatch()
-
-  const { products, status } = useSelector(state => state.products)
-
-  useEffect(() => {
-    !products.length && dispatch(fetchProducts());
-    dispatch(cleanProduct())
-
-  }, [dispatch]);
-
+export const ProductGrid = ({ props }) => {
   return (
     <Stack>
     {
@@ -72,7 +53,7 @@ export const Home = () => {
               product={ product }
             >
               <Box p={1}>
-                <Skeleton >
+                <Skeleton>
                   <Box
                     h={{ base: '270px', sm: '170px' }} 
                     w={{base: '100%', sm: '33%', md: '25%'}} 

@@ -12,8 +12,8 @@ export const ProductCategories = ({ categories }) => {
         categories?.map( category => (
           <Badge 
             key={category.id} 
-            px="2" 
-            fontSize={8} 
+            px={2} 
+            fontSize={10} 
             bg="purple"
             color="white"
           >

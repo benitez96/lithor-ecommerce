@@ -19,6 +19,7 @@
     "dlx": "^0.2.1",
     "framer-motion": "^6.2.7",
     "react": "^17.0.2",
+    "react-credit-cards": "^0.8.3",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
     "react-redux": "^7.2.6",

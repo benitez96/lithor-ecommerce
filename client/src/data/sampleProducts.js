@@ -1,4 +1,3 @@
-import sampleImage from './sample_image.png'
 export const sample = [
   {
     id: 1,

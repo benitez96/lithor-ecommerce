@@ -25,6 +25,13 @@ export const currentProductSlice = createSlice({
         product: action.payload
       }
     ),
+    cleanProduct: (state) => (
+      {
+        ...state,
+        status: 'loading',
+        product: null
+      }
+    )
   },
   extraReducers: {
     [fetchProductById.pending]: (state, action) => {
@@ -40,5 +47,5 @@ export const currentProductSlice = createSlice({
   },
 })
 
-export const { setProduct } = currentProductSlice.actions
+export const { setProduct, cleanProduct } = currentProductSlice.actions
 export default currentProductSlice.reducer

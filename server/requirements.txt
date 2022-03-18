@@ -3,3 +3,4 @@ sqlmodel
 uvicorn
 passlib
 bcrypt
+mercadopago

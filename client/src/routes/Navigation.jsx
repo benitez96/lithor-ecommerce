@@ -8,8 +8,7 @@ import {
   Container,
 } from '@chakra-ui/react'
 
-import { Home } from '../pages';
-import { Product } from '../pages';
+import { Home, Product, Payment } from '../pages';
 import Navbar from '../components/navbar/Navbar';
 
 export const Navigation = () => (
@@ -19,6 +18,7 @@ export const Navigation = () => (
       <Routes>
         <Route path="/" element={ <Home /> } />
         <Route path="/product/:id" element={ <Product /> }/>
+        <Route path="/payment" element={ <Payment /> } />
         <Route path="*" element={ <h1>Not found</h1> } />
       </Routes>
     </Container> 

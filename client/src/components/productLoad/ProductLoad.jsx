@@ -44,7 +44,7 @@ export const ProductLoad = ({ product }) => {
     >
       <Text
         as="h2"
-        fontSize="5xl"
+        fontSize="4xl"
         fontWeight="semibold"
         color="gray.900"
         mb={4}
