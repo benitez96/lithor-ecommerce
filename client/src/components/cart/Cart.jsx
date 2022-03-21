@@ -18,7 +18,7 @@ import {
 
 import { ProductCard } from './ProductCard'
 import { CartDetail } from './CartDetail';
-import { addItem } from '../../reducers/cartReducer'
+import { addItem, cleanUp } from '../../reducers/cartReducer'
 
 
 export const Cart = ({ isOpen, onClose }) => {
@@ -28,6 +28,7 @@ export const Cart = ({ isOpen, onClose }) => {
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem('cart'));
     if (cart) {
+      dispatch(cleanUp());
       for ( let product of cart) {
         dispatch(addItem(product));
       }

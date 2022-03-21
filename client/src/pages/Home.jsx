@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef} from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { FiShoppingCart } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import { setCheckOutPage } from '../reducers/pagesReducer';
 
 import {
   Container,
-  Spinner,
   Stack,
   Wrap,
   Text,
@@ -25,6 +24,9 @@ export const Home = () => {
   const { products, status } = useSelector(state => state.products)
 
   useEffect(() => {
+
+    dispatch(setCheckOutPage(false))
+
     !products.length && dispatch(fetchProducts());
     dispatch(cleanProduct())
 

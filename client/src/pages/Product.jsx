@@ -12,6 +12,7 @@ import {
 import { fetchProductById, setProduct } from '../reducers/currentProductReducer';
 import { ProductLoad } from '../components/productLoad/ProductLoad'
 import { ProductLoadSkeleton } from '../components/productLoad/ProductLoadSkeleton'
+import {setCheckOutPage} from '../reducers/pagesReducer';
 
 export const Product = () => {
 
@@ -19,6 +20,10 @@ export const Product = () => {
 
   const { id } = useParams();
   const { products } = useSelector(state => state.products)
+
+  useEffect(() => {
+    dispatch(setCheckOutPage(false))
+  }, []);
 
   useEffect(() => {
     const aux = products?.find(product => product.id == id)

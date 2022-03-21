@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Container,
   Box,
@@ -14,13 +15,20 @@ import {
 import { MercadoPagoForm } from '../components/mercadoPago/MercadoPagoForm.jsx';
 import { DatosEnvioForm } from '../components/datosEnvio/DatosEnvioForm.jsx';
 import { Confirmacion } from '../components/confirmacion/Confirmacion.jsx';
+import {setCheckOutPage} from '../reducers/pagesReducer.js';
 
 export const Payment = () => {
 
   const [tabIndex, setTabIndex] = useState(0);
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setCheckOutPage(true))
+  }, []);
+
   return (
-    <Container px={0} maxW='container.lg' mt={4} border='black'>
+    <Container p={0} maxW='container.lg' mt={4} border='black'>
       <Box 
         borderWidth='1px' 
         borderRadius='sm' 

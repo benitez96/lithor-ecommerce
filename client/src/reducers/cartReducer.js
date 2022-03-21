@@ -8,6 +8,11 @@ export const cartSlice = createSlice({
     totalAmount: 0,
   },
   reducers: {
+    cleanUp: (state) => {
+      state.products = []
+      state.items = 0
+      state.totalAmount = 0
+    },
     addItem: (state, action) => { 
 
       const index = state.products.findIndex(product => product.id === action.payload.id)
@@ -70,5 +75,5 @@ export const cartSlice = createSlice({
   },
 })
 
-export const { addItem, removeItem, decreaseByOne, increaseByOne } = cartSlice.actions
+export const { addItem, removeItem, decreaseByOne, increaseByOne, cleanUp } = cartSlice.actions
 export default cartSlice.reducer
