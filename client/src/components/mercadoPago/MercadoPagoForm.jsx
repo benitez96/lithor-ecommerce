@@ -60,203 +60,186 @@ export const MercadoPagoForm = () => {
         </Stack>
 
 
-        <form id="form-checkout">
+        <Stack
+          as="form"
+          id="form-checkout"
+          justifyContent="center"
+          spacing={4}
+        >
           <Stack
-            justifyContent="center"
+          >
+          <FormControl
+            variant='floating'
+            isInvalid={isError}
+            w='100%'
+          >
+              <Input
+                borderColor='gray.400'
+                id='form-checkout__cardNumber'
+                name='cardNumber'
+                type='tel'
+                value={state.cardNumber}
+                onChange={handleInputChange}
+                onFocus={handleInputFocus}
+              />
+              <FormLabel>Numero de tarjeta</FormLabel>
+            </FormControl>
+          </Stack>
+          <Stack 
+            direction={{base: 'column', md: 'row'}}
+            justifyContent='space-between'
+            alignItems='center'
             spacing={4}
           >
-            <Stack
-            >
             <FormControl
               variant='floating'
               isInvalid={isError}
-              w='100%'
+              w={{ base: "100%", md: "40%" }}
             >
-                <Input
-                  borderColor='gray.400'
-                  id='form-checkout__cardNumber'
-                  name='cardNumber'
-                  type='tel'
-                  value={state.cardNumber}
-                  onChange={handleInputChange}
-                  onFocus={handleInputFocus}
-                />
-                <FormLabel>Numero de tarjeta</FormLabel>
-              </FormControl>
-            </Stack>
-            <Stack 
-              direction={{base: 'column', md: 'row'}}
-              justifyContent='space-between'
-              alignItems='center'
-              spacing={4}
+              <Input
+                borderColor='gray.400'
+                id='form-checkout__cardholderName'
+                name='cardholderName'
+                type='tel'
+                value={state.cardholderName}
+                onChange={handleInputChange}
+                onFocus={handleInputFocus}
+              />
+              <FormLabel htmlFor='cardholderName'>Titular de la tarjeta</FormLabel>
+            </FormControl>
+            <Stack
+              w={{ base: "100%", md: "57%" }}
+              spacing={1}
+              direction='row'
             >
               <FormControl
                 variant='floating'
                 isInvalid={isError}
-                w={{ base: "100%", md: "40%" }}
               >
                 <Input
                   borderColor='gray.400'
-                  id='form-checkout__cardholderName'
-                  name='cardholderName'
+                  id='form-checkout__cardExpirationMonth'
+                  name='cardExpirationMonth'
                   type='tel'
-                  value={state.cardholderName}
+                  value={state.cardExpirationMonth}
+                  onChange={handleInputChange}
+                  onFocus={handleInputFocus}
+                  pattern="\d\d/\d\d"
+                />
+                <FormLabel htmlFor='cardExpirationMonth'>MES EXP.</FormLabel>
+              </FormControl>
+              <FormControl
+                variant='floating'
+                isInvalid={isError}
+              >
+                <Input
+                  borderColor='gray.400'
+                  id='form-checkout__cardExpirationYear'
+                  name='cardExpirationYear'
+                  type='tel'
+                  value={state.cardExpirationYear}
                   onChange={handleInputChange}
                   onFocus={handleInputFocus}
                 />
-                <FormLabel htmlFor='cardholderName'>Titular de la tarjeta</FormLabel>
+                <FormLabel htmlFor='cardExpirationYear'>ANO EXP.</FormLabel>
               </FormControl>
-              <Stack
-                w={{ base: "100%", md: "57%" }}
-                spacing={1}
-                direction='row'
-              >
-                <FormControl
-                  variant='floating'
-                  isInvalid={isError}
-                >
-                  <Input
-                    borderColor='gray.400'
-                    id='form-checkout__cardExpirationMonth'
-                    name='cardExpirationMonth'
-                    type='tel'
-                    value={state.cardExpirationMonth}
-                    onChange={handleInputChange}
-                    onFocus={handleInputFocus}
-                    pattern="\d\d/\d\d"
-                  />
-                  <FormLabel htmlFor='cardExpirationMonth'>MES EXP.</FormLabel>
-                </FormControl>
-                <FormControl
-                  variant='floating'
-                  isInvalid={isError}
-                >
-                  <Input
-                    borderColor='gray.400'
-                    id='form-checkout__cardExpirationYear'
-                    name='cardExpirationYear'
-                    type='tel'
-                    value={state.cardExpirationYear}
-                    onChange={handleInputChange}
-                    onFocus={handleInputFocus}
-                  />
-                  <FormLabel htmlFor='cardExpirationYear'>ANO EXP.</FormLabel>
-                </FormControl>
-                <FormControl
-                  variant='floating'
-                  isInvalid={isError}
-                >
-                  <Input
-                    borderColor='gray.400'
-                    id='form-checkout__securityCode'
-                    name='cvc'
-                    type='tel'
-                    value={state.cvc}
-                    onChange={handleInputChange}
-                    onFocus={handleInputFocus}
-                  />
-                  <FormLabel htmlFor='cvc'>CVC</FormLabel>
-                </FormControl>
-              </Stack>
-            </Stack>
-            <FormControl 
-              isInvalid={isError}
-              variant='floating'
-            >
-              <Input
-                  borderColor='gray.400'
-                id='form-checkout__cardholderEmail'
-                name='cardholderEmail'
-                type='email'
-                value={state.cardholderEmail}
-                onChange={handleInputChange}
-              />
-              <FormLabel htmlFor='cardholderEmail'>Email</FormLabel>
-            </FormControl>
-            <Stack
-              direction='row' 
-              wrap='wrap' 
-              justifyContent='space-between'
-              spacing={1}
-            >
-              <FormControl 
+              <FormControl
                 variant='floating'
                 isInvalid={isError}
-                w='25%'
-              >
-                <Select
-                  id='form-checkout__identificationType'
-                  name='identificationType'
-                  borderColor='gray.400'
-                >
-                </Select>
-                <FormLabel htmlFor='identificationType'>Tipo</FormLabel>
-              </FormControl>
-              <FormControl 
-                variant='floating'
-                isInvalid={isError}
-                w='72%'
               >
                 <Input
                   borderColor='gray.400'
-                  id='form-checkout__identificationNumber'
-                  name='identificationNumber'
+                  id='form-checkout__securityCode'
+                  name='cvc'
                   type='tel'
-                  value={state.identificationNumber}
+                  value={state.cvc}
                   onChange={handleInputChange}
+                  onFocus={handleInputFocus}
                 />
-                <FormLabel htmlFor='identificationNumber'>Numero</FormLabel>
+                <FormLabel htmlFor='cvc'>CVC</FormLabel>
               </FormControl>
             </Stack>
-            <Stack
-              direction='row' 
-              wrap='wrap' 
-              justifyContent='space-between'
-              spacing={1}
-            >
-              <FormControl 
-                variant='floating'
-                isInvalid={isError}
-                w={{ base: "100%", md: "48%" }}
-              >
-                <Select
-                  id='form-checkout__issuer'
-                  name='issuer'
-                  borderColor='gray.400'
-                >
-                </Select>
-              </FormControl>
-              <FormControl 
-                variant='floating'
-                isInvalid={isError}
-                w={{ base: "100%", md: "48%" }}
-              >
-                <Select
-                  id='form-checkout__installments'
-                  name='installments'
-                  borderColor='gray.400'
-                >
-                </Select>
-              </FormControl>
-            </Stack>
-
-            {/* <Stack */}
-            {/*   justifyContent='end' */}
-            {/*   direction='row' */}
-            {/*   p={8} */}
-            {/* > */}
-            {/*   <Button */} 
-            {/*     isLoading={resultPayment == 'loading'} */}
-            {/*     type="submit" */} 
-            {/*     id="form-checkout__submit" */}
-            {/*     colorScheme='blue' */}
-            {/*     loadingText="Procesando..." */}
-            {/*   > */}
-            {/*     Pagar */}
-            {/*   </Button> */}
-            {/* </Stack> */}
           </Stack>
-        </form>
+          <FormControl 
+            isInvalid={isError}
+            variant='floating'
+          >
+            <Input
+                borderColor='gray.400'
+              id='form-checkout__cardholderEmail'
+              name='cardholderEmail'
+              type='email'
+              value={state.cardholderEmail}
+              onChange={handleInputChange}
+            />
+            <FormLabel htmlFor='cardholderEmail'>Email</FormLabel>
+          </FormControl>
+          <Stack
+            direction='row' 
+            wrap='wrap' 
+            justifyContent='space-between'
+            spacing={1}
+          >
+            <FormControl 
+              variant='floating'
+              isInvalid={isError}
+              w='25%'
+            >
+              <Select
+                id='form-checkout__identificationType'
+                name='identificationType'
+                borderColor='gray.400'
+              >
+              </Select>
+              <FormLabel htmlFor='identificationType'>Tipo</FormLabel>
+            </FormControl>
+            <FormControl 
+              variant='floating'
+              isInvalid={isError}
+              w='72%'
+            >
+              <Input
+                borderColor='gray.400'
+                id='form-checkout__identificationNumber'
+                name='identificationNumber'
+                type='tel'
+                value={state.identificationNumber}
+                onChange={handleInputChange}
+              />
+              <FormLabel htmlFor='identificationNumber'>Numero</FormLabel>
+            </FormControl>
+          </Stack>
+          <Stack
+            direction={{base: 'column', md: 'row'}}
+            spacing={4}
+          >
+            <FormControl 
+              variant='floating'
+              isInvalid={isError}
+              w={{ base: "100%", md: "48%" }}
+            >
+              <Select
+                id='form-checkout__issuer'
+                name='issuer'
+                borderColor='gray.400'
+                icon=''
+              >
+              </Select>
+            </FormControl>
+            <FormControl 
+              variant='floating'
+              isInvalid={isError}
+              w={{ base: "100%", md: "48%" }}
+            >
+              <Select
+                id='form-checkout__installments'
+                name='installments'
+                borderColor='gray.400'
+              >
+              </Select>
+            </FormControl>
+          </Stack>
+        </Stack>
             {resultPayment && <p>{JSON.stringify(resultPayment)}</p>}
       </Stack>
     );

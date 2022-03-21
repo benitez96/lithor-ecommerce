@@ -1,32 +1,45 @@
-import React from 'react';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Drawer,
+  Divider,
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
   DrawerHeader,
   DrawerBody,
   DrawerFooter,
-  Divider,
-  Text,
   Button,
-  Input,
-  Image,
   Stack,
-  HStack,
-  Box,
   StackDivider,
-  useNumberInput,
 
 } from '@chakra-ui/react';
 
 import { ProductCard } from './ProductCard'
+import { CartDetail } from './CartDetail';
+import { addItem } from '../../reducers/cartReducer'
 
 
 export const Cart = ({ isOpen, onClose }) => {
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const cart = JSON.parse(localStorage.getItem('cart'));
+    if (cart) {
+      for ( let product of cart) {
+        dispatch(addItem(product));
+      }
+    }
+    
+  }, []);
+
   const { products, totalAmount } = useSelector(state => state.cart);
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(products));
+  }, [products])
 
   return (
     <Drawer
@@ -54,19 +67,8 @@ export const Cart = ({ isOpen, onClose }) => {
         <DrawerFooter>
           <Stack justifyContent='center' w='100%'>
             <Divider orientation='horizontal' borderColor='gray.400'/> 
-            <HStack justifyContent='space-between'> 
-              <Text fontSize='sm' color='gray.600'>Subtotal:</Text>
-              <Text fontSize='sm' color='gray.600'>${totalAmount}</Text>
-            </HStack>
-            <HStack justifyContent='space-between'> 
-              <Text fontSize='sm' color='gray.600'>Envio:</Text>
-              <Text fontSize='sm' color='gray.600'>Se calcula mas adelante</Text>
-            </HStack>
-            <HStack py={3} justifyContent='space-between'> 
-              <Text fontWeight='semibold' fontSize='lg'>Total:</Text>
-              <Text fontWeight='semibold' fontSize='lg'>${totalAmount}</Text>
-            </HStack>
-            <Button colorScheme='blue'>INICIAR COMPRA</Button>
+            <CartDetail totalAmount={ totalAmount } />
+            <Button colorScheme='blue' as={Link} to='/payment'>INICIAR COMPRA</Button>
             <Button variant='outline' mr={3} onClick={onClose}>
               Ver mas productos
             </Button>
