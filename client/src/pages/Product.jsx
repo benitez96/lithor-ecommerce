@@ -9,6 +9,10 @@ import {
   Image,
 } from '@chakra-ui/react';
 
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from 'react-responsive-carousel';
+
+
 import { fetchProductById, setProduct } from '../reducers/currentProductReducer';
 import { ProductLoad } from '../components/productLoad/ProductLoad'
 import { ProductLoadSkeleton } from '../components/productLoad/ProductLoadSkeleton'
@@ -50,13 +54,23 @@ export const Product = () => {
               w={{ base: 'full', sm: '65%' }}
               h="full"
             >
-              <AspectRatio ratio={ 1 } maxH="full">
-              <Image
-                src={product.image_url}
-                alt={product.name}
-                objectFit="cover"
-              />
-              </AspectRatio>
+              <Carousel
+                emulateTouch={true}
+                showThumbs={false}
+                showStatus={false}
+                swipeable={true}
+              >
+                {
+                  product.variants[0].images.map((image, i) => (
+                    <AspectRatio ratio={ 1 } maxH="full" key={i}>
+                      <Image
+                        src={image.url}
+                        objectFit="cover"
+                      />
+                    </AspectRatio>
+                  ))
+                }
+              </Carousel>
             </Box>
             <ProductLoad product={ product } />
           </>

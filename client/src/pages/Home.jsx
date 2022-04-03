@@ -53,8 +53,8 @@ export const Home = () => {
                 <ProductCard.Image product={ product }/>
                 <ProductCard.Footer>
                   <ProductCard.Title title={ product.name } />
-                  <ProductCard.Price price={ product.price } />
-                  <ProductCard.Description description={`3 Cuotas sin interes de $ ${Math.round(product.price / 3 * 100) / 100}`}/>
+                  <ProductCard.Price price={ product.variants[0].price } />
+                  <ProductCard.Description description={product.description}/>
                 </ProductCard.Footer>
               </Link>
             </ProductCard>
@@ -90,7 +90,7 @@ export const Home = () => {
                 </Box>
                 <Box w="30%">
                   <Skeleton>
-                    <ProductCard.Price price={ product.price } />
+                    {/* <ProductCard.Price price={ product.price } /> */}
                   </Skeleton>
                 </Box>
                 <Skeleton w="75%">

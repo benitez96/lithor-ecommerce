@@ -12,7 +12,7 @@ export const ProductPrice = ({ price, sign="$" }) => {
         <Box as="span" color={'gray.600'} fontSize="md" px={1}>
           { sign }
         </Box>
-        {price.toFixed(2)}
+        {parseFloat(price).toFixed(2)}
       </Box>
     </Flex>
   );

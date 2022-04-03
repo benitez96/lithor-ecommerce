@@ -3,8 +3,8 @@ from sqlmodel import SQLModel, Field, Relationship
 
 
 class ProductOrderLink(SQLModel, table=True):
-    product_id: Optional[int] = Field(default=None, primary_key=True,
-                            foreign_key='product.id')
+    variant_id: Optional[int] = Field(default=None, primary_key=True,
+                            foreign_key='variant.id')
     order_id: Optional[int] = Field(default=None, primary_key=True,
                           foreign_key='order.id')
 
@@ -31,38 +31,78 @@ class CategoryRead(SQLModel):
     id: int
     name: str
 
+class ImageCreate(SQLModel):
+    url: str
+
+class Image(ImageCreate, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+
+    variant_id: Optional[int] = Field(foreign_key='variant.id')
+    variant: 'Variant' = Relationship(back_populates='images')
+
 
 class Product(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True, index=True)
     name: str = Field(index=True)
-    cost: float
-    price: float
     description: Optional[str]
-    image_url: str
-    discount: Optional[int]
+    image: str
 
     categories: List[Category] = Relationship(back_populates='products',
                                                 link_model=ProductCategoryLink)
 
-    orders: List['Order'] = Relationship(back_populates='products',
+
+    variants: List['Variant'] = Relationship(back_populates='product')
+
+
+
+class VariantCreate(SQLModel):
+
+    color: Optional[str]
+    size: str
+    quantity: int
+    cost: str
+    price: str
+    discount: Optional[int] = 0
+    images: List[ImageCreate]
+
+class VariantRead(SQLModel):
+
+    id: int
+    color: Optional[str]
+    size: str
+    quantity: int
+    price: str
+    discount: Optional[int] = 0
+    images: List[ImageCreate]
+
+
+class Variant(VariantCreate, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True, index=True)
+
+    cost: float
+    price: float
+
+    images: Optional[List['Image']] = Relationship(back_populates='variant')
+    product_id: int = Field(foreign_key='product.id')
+    product: Product = Relationship(back_populates='variants')
+
+    orders: List['Order'] = Relationship(back_populates='variants',
                                          link_model=ProductOrderLink)
 
 class ProductCreate(SQLModel):
     name: str
-    cost: float
-    price: float
     description: Optional[str]
-    image_url: str
-    discount: Optional[int]
+    image: str
     category_ids: Optional[List[int]] = []
+    variants: List[VariantCreate]
 
 class ProductRead(SQLModel):
     id: int
     name: str
-    price: float
+    image: str
     description: Optional[str]
-    image_url: str
-    categories: List[CategoryRead] = []
+    categories: List[CategoryRead]
+    variants: List[VariantRead]
 
 class ItemCreate(SQLModel):
     product_ref: Optional[int]
@@ -99,7 +139,7 @@ class OrderCreate(SQLModel):
     email: str
     status_id: int
 
-    products: Optional[List[int]]
+    variants: Optional[List[int]]
 
     items: List[ItemCreate]
 
@@ -107,7 +147,7 @@ class OrderCreate(SQLModel):
 class Order(OrderCreate, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
 
-    products: List[Product] = Relationship(back_populates='orders',
+    variants: List[Variant] = Relationship(back_populates='orders',
                                             link_model=ProductOrderLink)
 
     status_id: Optional[int] = Field(default=None, foreign_key='status.id')
@@ -125,6 +165,23 @@ class Payer(SQLModel):
     email: str
     identification: Identification
 
+class ShippingData(SQLModel):
+    name: Optional[str]
+    last_name: Optional[str]
+    street: Optional[str]
+    street_number: Optional[str]
+    city: Optional[str]
+    state: Optional[str]
+    flat: Optional[str]
+    phone: Optional[str]
+    dni: Optional[str]
+    zip_code: Optional[str]
+
+class Item(ProductRead):
+    id: str
+    quantity: int
+    size: str
+
 class PaymentRequest(SQLModel):
     description: str
     installments: Optional[int]
@@ -132,4 +189,6 @@ class PaymentRequest(SQLModel):
     payer: Payer
     payment_method_id: str
     token: str
-    transaction_amount: float
+    transaction_amount: str
+    items: List[Item]
+    shipping_data: Optional[ShippingData]

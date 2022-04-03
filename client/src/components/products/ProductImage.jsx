@@ -4,7 +4,6 @@ import {
   Center,
   Image,
   Box,
-  AspectRatio,
 } from '@chakra-ui/react'
 
 import { ProductCategories } from './ProductCategories.jsx'
@@ -21,7 +20,7 @@ export const ProductImage = ({ product }) => {
       objectFit="cover"
     >
       <Image
-        src={product.image_url}
+        src={product.image}
         alt={`Picture of ${product.name}`}
         h="100%"
       />

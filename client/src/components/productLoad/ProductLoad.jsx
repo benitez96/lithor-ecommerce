@@ -18,7 +18,7 @@ import { QuantityButtons } from './QuantityButtons'
 export const ProductLoad = ({ product }) => {
 
   const [quantity, setQuantity] = useState(1);
-  const [size, setSize] = useState('XL');
+  const [size, setSize] = useState('M');
 
   const dispatch = useDispatch();
 
@@ -27,8 +27,12 @@ export const ProductLoad = ({ product }) => {
   }
 
   const handleAddToCart = () => {
-    const cartProduct = Object.assign({}, product, { quantity, size })
-    cartProduct.id = `${cartProduct.id}-${cartProduct.size}`
+    const variant = product.variants.find(variant => variant.size === size);
+    const cartProduct = Object.assign(
+      {},
+      product, 
+      { quantity, id: variant.id, size, price: variant.price }
+    );
     dispatch(addItem(cartProduct));
   }
 
@@ -62,11 +66,14 @@ export const ProductLoad = ({ product }) => {
 
         <FormControl w='35%' minW='80px' display='inline-block'>
           <FormLabel htmlFor='talle'>Talle</FormLabel>
-          <Select onChange={ handleSize } id='talle' defaultValue={'XL'} >
-            <option>XL</option>
-            <option>L</option>
-            <option>M</option>
-            <option>S</option>
+          <Select onChange={ handleSize } id='talle' defaultValue={size} >
+            {
+              product.variants
+                .filter(variant => variant.quantity > 0)
+                .map(({ size }) => (
+                  <option key={size} value={size}>{size}</option>
+                ))
+            }
           </Select>
         </FormControl>
 

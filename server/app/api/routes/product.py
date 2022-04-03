@@ -30,20 +30,41 @@ def create_product(
         product: ProductCreate
 ):
 
-
     db_product = Product.from_orm(product)
 
-    categories = session.query(Category).filter(Category.id.in_(product.category_ids)).all()
-    if not categories:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Categories not found")
-
-    db_product.categories = categories
-
-    print(db_product)
-
+    if product.category_ids:
+        categories = session.query(Category).filter(Category.id.in_(product.category_ids)).all()
+        if not categories:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Categories not found")
+        db_product.categories = categories
 
     session.add(db_product)
     session.commit()
+    session.refresh(db_product)
+
+    #TODO: faltan insertar las imagenes primero
+    for variant in product.variants:
+
+        db_variant = Variant(
+            size = variant.size,
+            price = float(variant.price),
+            cost = float(variant.cost),
+            quantity = variant.quantity,
+        )
+        db_variant.product_id = db_product.id
+
+        session.add(db_variant)
+        session.commit()
+        session.refresh(db_variant)
+
+        for image in variant.images:
+            db_image = Image.from_orm(image)
+            db_image.variant_id = db_variant.id
+            session.add(db_image)
+            session.commit()
+
+
+
     session.refresh(db_product)
 
     return db_product

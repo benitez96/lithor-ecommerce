@@ -11,7 +11,8 @@ import {
   Box,
 } from '@chakra-ui/react';
 
-export const DatosEnvioForm = () => {
+export const DatosEnvioForm = ({ handleChange }) => {
+
   return (
 
   <Stack>
@@ -33,7 +34,9 @@ export const DatosEnvioForm = () => {
           w='100%'
         >
           <Input
+            name='name'
             borderColor='gray.400'
+            onChange={handleChange}
           />
           <FormLabel>Nombre</FormLabel>
         </FormControl>
@@ -42,7 +45,9 @@ export const DatosEnvioForm = () => {
           w='100%'
         >
           <Input
+            name='last_name'
             borderColor='gray.400'
+            onChange={handleChange}
           />
           <FormLabel>Apellido</FormLabel>
         </FormControl>
@@ -51,7 +56,9 @@ export const DatosEnvioForm = () => {
           w='100%'
         >
           <Input
+            name='phone'
             borderColor='gray.400'
+            onChange={handleChange}
           />
           <FormLabel>Telefono</FormLabel>
         </FormControl>
@@ -78,7 +85,9 @@ export const DatosEnvioForm = () => {
             w={{base: '100%', md: '50%'}}
           >
             <Input
+              name='street'
               borderColor='gray.400'
+              onChange={handleChange}
             />
             <FormLabel>Calle</FormLabel>
           </FormControl>
@@ -88,7 +97,9 @@ export const DatosEnvioForm = () => {
               w='50%'
             >
               <Input
+                name='street_number'
                 borderColor='gray.400'
+                onChange={handleChange}
               />
               <FormLabel>Numero</FormLabel>
             </FormControl>
@@ -97,7 +108,9 @@ export const DatosEnvioForm = () => {
               w='50%'
             >
               <Input
+                name='flat'
                 borderColor='gray.400'
+                onChange={handleChange}
               />
               <FormLabel>Departamento</FormLabel>
             </FormControl>
@@ -108,7 +121,9 @@ export const DatosEnvioForm = () => {
           w='100%'
         >
           <Input
+            name='city'
             borderColor='gray.400'
+            onChange={handleChange}
           />
           <FormLabel>Ciudad</FormLabel>
         </FormControl>
@@ -117,7 +132,9 @@ export const DatosEnvioForm = () => {
           w='100%'
         >
           <Input
+            name='zip_code'
             borderColor='gray.400'
+            onChange={handleChange}
           />
           <FormLabel>Codigo Postal</FormLabel>
         </FormControl>
@@ -126,7 +143,9 @@ export const DatosEnvioForm = () => {
           w='100%'
         >
           <Input
+            name='state'
             borderColor='gray.400'
+            onChange={handleChange}
           />
           <FormLabel>Provincia</FormLabel>
         </FormControl>
@@ -151,7 +170,9 @@ export const DatosEnvioForm = () => {
             w='100%'
           >
             <Input
+              name='dni'
               borderColor='gray.400'
+              onChange={handleChange}
             />
             <FormLabel>DNI o CUIL</FormLabel>
           </FormControl>

@@ -1,20 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import useScript from "./useScript";
 import { formConfig } from "../components/mercadoPago/formConfig";
+import {useSelector} from "react-redux";
 
 export default function useMercadoPago() {
   const [resultPayment, setResultPayment] = useState(undefined);
+  
+  const { products: items, totalAmount } = useSelector(state => state.cart)
+
 
   const { MercadoPago } = useScript(
     "https://sdk.mercadopago.com/js/v2",
     "MercadoPago"
   );
 
+  const shipping = useRef()
+  // const [shipping, setShipping] = useState({});
+  console.log('shipping', shipping.current)
+
   useEffect(() => {
     if (MercadoPago) {
       const mp = new MercadoPago(import.meta.env.VITE_PUBLIC_KEY_MP);
       const cardForm = mp.cardForm({
-        amount: "100.5",
+        amount: totalAmount.toString(),
         autoMount: true,
         form: formConfig,
         callbacks: {
@@ -30,6 +38,9 @@ export default function useMercadoPago() {
             event.preventDefault();
             setResultPayment('loading')
 
+            console.log('items', items)
+            console.log('shipping', shipping.current)
+
             const {
               paymentMethodId: payment_method_id,
               issuerId: issuer_id,
@@ -41,10 +52,9 @@ export default function useMercadoPago() {
               identificationType,
             } = cardForm.getCardFormData();
 
+
             fetch(
-              `${
-                                import.meta.env.VITE_URL_PAYMENT_MP
-                            }/process_payment`,
+              `${ import.meta.env.VITE_URL_PAYMENT_MP }/process_payment`,
               {
                 // entry point backend
                 method: "POST",
@@ -58,9 +68,11 @@ export default function useMercadoPago() {
                   token,
                   issuer_id,
                   payment_method_id,
-                  transaction_amount: 1000,
+                  transaction_amount: amount,
                   installments: Number(installments),
-                  description: "Descripción del producto",
+                  items,
+                  description: "Compra en LithorShop",
+                  shipping_data: shipping.current,
                   payer: {
                     email,
                     identification: {
@@ -82,5 +94,5 @@ export default function useMercadoPago() {
     }
   }, [MercadoPago]);
 
-  return resultPayment;
+  return { resultPayment, shipping };
 }

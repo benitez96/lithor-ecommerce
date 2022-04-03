@@ -31,7 +31,7 @@ export const ProductCard = ({ product, min=0, max=20 }) => {
   return (
     <Box>
       <Stack direction="row" spacing={4}>
-        <Image src={product.image_url} alt={product.name} maxH='100px'/>
+        <Image src={product.image} alt={product.name} maxH='100px'/>
         <Stack spacing={1} pt={4}>
           <HStack>
             <Text fontWeight='semibold'>{product.name}</Text>

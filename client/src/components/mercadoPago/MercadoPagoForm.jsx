@@ -24,7 +24,6 @@ const INITIAL_STATE = {
 
 export const MercadoPagoForm = () => {
     const [state, setState] = useState(INITIAL_STATE);
-    const resultPayment = useMercadoPago();
 
     const isError =false;
 
@@ -33,10 +32,15 @@ export const MercadoPagoForm = () => {
             ...state,
             [e.target.dataset.name || e.target.name]: e.target.value,
         });
+
     };
 
     const handleInputFocus = (e) => {
         setState({ ...state, focus: e.target.dataset.name || e.target.name });
+    };
+
+    const handleCVCBlur = () => {
+        setState({ ...state, focus: 'cardNumber' });
     };
 
     return (
@@ -65,6 +69,7 @@ export const MercadoPagoForm = () => {
           id="form-checkout"
           justifyContent="center"
           spacing={4}
+          noValidate
         >
           <Stack
           >
@@ -155,6 +160,7 @@ export const MercadoPagoForm = () => {
                   value={state.cvc}
                   onChange={handleInputChange}
                   onFocus={handleInputFocus}
+                  onBlur={handleCVCBlur}
                 />
                 <FormLabel htmlFor='cvc'>CVC</FormLabel>
               </FormControl>
@@ -165,12 +171,10 @@ export const MercadoPagoForm = () => {
             variant='floating'
           >
             <Input
-                borderColor='gray.400'
+              borderColor='gray.400'
               id='form-checkout__cardholderEmail'
               name='cardholderEmail'
               type='email'
-              value={state.cardholderEmail}
-              onChange={handleInputChange}
             />
             <FormLabel htmlFor='cardholderEmail'>Email</FormLabel>
           </FormControl>
@@ -203,8 +207,6 @@ export const MercadoPagoForm = () => {
                 id='form-checkout__identificationNumber'
                 name='identificationNumber'
                 type='tel'
-                value={state.identificationNumber}
-                onChange={handleInputChange}
               />
               <FormLabel htmlFor='identificationNumber'>Numero</FormLabel>
             </FormControl>
@@ -240,7 +242,6 @@ export const MercadoPagoForm = () => {
             </FormControl>
           </Stack>
         </Stack>
-            {resultPayment && <p>{JSON.stringify(resultPayment)}</p>}
       </Stack>
     );
 }
