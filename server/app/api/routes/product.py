@@ -3,31 +3,32 @@ from fastapi.exceptions import HTTPException
 from sqlmodel import Session, select
 from typing import List
 
+from ..schemas.product import *
 from ...models.models import *
 from ...db.db import get_session
 
 
 router = APIRouter()
 
-@router.get("/{product_id}", response_model=ProductRead)
+@router.get("/{product_id}", response_model=ProductSchema)
 def get_product(product_id: int, session: Session = Depends(get_session)):
     product = session.get(Product, product_id)
     if product is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found")
     return product
 
-@router.get("/", response_model=List[ProductRead])
+@router.get("/", response_model=List[ProductSchema])
 def get_products(session: Session = Depends(get_session)):
     """
     Get all products
     """
     return session.exec(select(Product)).all()
 
-@router.post('/', response_model=ProductRead, status_code=status.HTTP_201_CREATED)
+@router.post('/', response_model=ProductSchema, status_code=status.HTTP_201_CREATED)
 def create_product(
         *,
         session: Session = Depends(get_session),
-        product: ProductCreate
+        product: ProductSchema
 ):
 
     db_product = Product.from_orm(product)
